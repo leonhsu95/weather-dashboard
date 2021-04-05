@@ -1,4 +1,4 @@
-# <Weather_Dashboard>
+# Weather Dashboard
 
 Please view the Weather Dashboard Project Here: [Weather Dashboard](https://leonhsu95.github.io/weather-dashboard/)
 
