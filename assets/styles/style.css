@@ -1,0 +1,138 @@
+:root{
+    --weather-blue: rgb(2, 49, 90);
+    --search-blue: rgb(104, 152, 224);
+}
+
+.wrapper{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+header{
+    /* outline: 1px blue solid; */
+}
+
+h1{
+    text-align: center;
+    padding: 15px;
+    color: white;
+    background-image: linear-gradient(to right, #2752ec, #2845ab);
+    
+}
+
+main{
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    /* outline: 1px red solid; */
+}
+
+#search-container{
+    width: 20%;
+    /* outline: 1px green dashed; */
+}
+
+#search{
+    padding: 10px;
+    border-bottom: 2px grey solid;
+}
+
+#search-heading{
+    font-size: 1.3em;
+    margin-bottom: 10px;
+}
+
+#search-bar{
+    width: 100%;
+    padding: 5px;
+    
+}
+
+#search-submit{
+    background-color: var(--search-blue);
+    color: white;
+    border: 1px var(--search-blue) solid;
+    border-radius: 5px;
+
+}
+
+button{
+    display: inline-block;
+    border-radius: 5px;
+    border: 1px grey solid;
+    font-size: 0.8em;
+    padding: 5px;
+    width: 100%;
+    margin: 5px 0;
+}
+
+#search-submit{
+    margin-top: 10px;
+    width: 100%;
+    padding: 5px;
+}
+
+#results{
+    padding: 10px;    
+}
+
+#weather-dashboard{
+    width: 80%;
+    /* outline: 1px purple dashed; */
+    padding: 10px;
+    
+}
+
+#city-forecast
+{
+    border: 1px grey solid;
+    padding: 10px;
+}
+
+
+.city{
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+.temp, .icon, .wind, .humidity, .uv{
+    margin: 10px 0;
+}
+
+.uv-color{
+    display: inline-block;
+    padding: 3px 7px;
+    background-color: green;
+    color: white;
+    font-size: 0.9em;
+    
+}
+
+#forecast-heading{
+    margin-top: 15px;
+    display: inline-block;
+    font-size: 1.3em; 
+    padding-left: 5px;
+}
+
+#weekly-forecast{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.forecast{
+    background-color: var(--weather-blue);
+    margin: 5px;
+    color: white;
+    padding: 20px;
+}
+
+.date{
+    font-weight: bold;
+}
+
+
