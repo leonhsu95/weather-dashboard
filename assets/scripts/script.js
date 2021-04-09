@@ -6,17 +6,17 @@ var cityName="Sydney, AU";
 
 
 // INITIAL ELEMENTS
-var cities = [];
+var cities = JSON.parse(localStorage.getItem("cities")) || [];
 
 const mainContent = document.querySelector("main");
 var searchForm = document.querySelector("#search");
 const searchBar = document.querySelector("#search-bar");
-searchBar.setAttribute("placeholder", cityName);
+searchBar.setAttribute("placeholder", "Sydney, AU");
 const resultsList = document.querySelector("#results-list");
 
 var city = searchBar.value.trim();
-// CREATING DYNAMIC ELEMENTS
 
+// CREATING DYNAMIC ELEMENTS
 
 var weeklyForecastSection = document.createElement("section");
 weeklyForecastSection.setAttribute("id","weekly-forecast");
@@ -54,11 +54,10 @@ function saveSearch(){
 
 // SEARCH HISTORY
 function searchHistory() {
+ 
+        resultsList.innerHTML="";
 
-        var savedCities = JSON.parse(localStorage.getItem("cities"));   
-
-        for (let i = 0; i < cities.length; i++) {    
-       
+        for (let i = 0; i < cities.length; i++) {         
         
         var searchResultsEl = document.createElement("li");
         searchResultsEl.setAttribute("class", "results-city");
@@ -70,13 +69,13 @@ function searchHistory() {
         cityButtons.setAttribute("type", "submit");
         
         cityButtons.textContent= savedCities[i];
-        console.log(savedCities);
 
         }
-        
-    }
+        console.log(savedCities);
+}
 
-    // searchHistory();
+    searchHistory();
+
 
 // EVENT LISTENER
 searchForm.addEventListener('submit', searchHandler);
