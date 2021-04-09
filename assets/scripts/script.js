@@ -45,6 +45,13 @@ function searchHandler(event){
    
 }
 
+
+function getWeather() {
+
+}
+
+
+
 // SAVE SEARCH HISTORY
 
 function saveSearch(){
