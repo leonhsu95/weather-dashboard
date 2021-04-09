@@ -14,7 +14,7 @@ const searchBar = document.querySelector("#search-bar");
 searchBar.setAttribute("placeholder", cityName);
 const resultsList = document.querySelector("#results-list");
 
-
+var city = searchBar.value.trim();
 // CREATING DYNAMIC ELEMENTS
 
 
@@ -35,7 +35,7 @@ function searchHandler(event){
     if (city) {
         // getWeather(city);
         // getweeklyForecast(city);
-        cities.push({city});
+        cities.push(city);
         searchBar.value="";       
     }
 
@@ -51,11 +51,15 @@ function saveSearch(){
     localStorage.setItem("cities",JSON.stringify(cities));
 }
 
+
 // SEARCH HISTORY
 function searchHistory() {
 
-        for (let i = 0; i < cities.length; i++) {      
+        var savedCities = JSON.parse(localStorage.getItem("cities"));   
 
+        for (let i = 0; i < cities.length; i++) {    
+       
+        
         var searchResultsEl = document.createElement("li");
         searchResultsEl.setAttribute("class", "results-city");
         resultsList.appendChild(searchResultsEl);
@@ -64,13 +68,15 @@ function searchHistory() {
         searchResultsEl.appendChild(cityButtons);
         cityButtons.setAttribute("class", "results-city");
         cityButtons.setAttribute("type", "submit");
-        var savedCities = JSON.parse(localStorage.getItem(cities));
-        cityButtons.textContent= savedCities.city[i];
+        
+        cityButtons.textContent= savedCities[i];
+        console.log(savedCities);
 
         }
         
     }
 
+    // searchHistory();
 
 // EVENT LISTENER
 searchForm.addEventListener('submit', searchHandler);
