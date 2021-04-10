@@ -2,7 +2,7 @@
 const apiKey = "4de26a78b67a4d05fdaf94a17d38a2e8";
 const queryURL = "https://api.openweathermap.org/data/2.5/weather?q=";
 // var cityName="Sydney, AU";
-var units = "&units=metric";
+const units = "&units=metric";
 
 
 
@@ -62,6 +62,85 @@ function searchHandler(event){
    
 // }
 
+function defaultWeather() {
+    var query= queryURL+"Sydney, AU"+units+"&appid="+apiKey;
+
+  fetch(query)
+    .then(function(response){
+        return response.json();
+    })
+    .then(function(data){
+        console.log(data);
+         cityDashboard.innerHTML="";
+
+         // Creating Current City Forecast
+         var cityName= document.createElement("h2");
+         cityName.setAttribute("class", "city");
+         cityName.textContent=data.name+"\xA0";
+
+         var currentDate= document.createElement("span");
+         currentDate.setAttribute("class", "date");
+         cityName.appendChild(currentDate);
+         currentDate.textContent=moment(data.dt*1000).format("DD/MM/YYYY")+"\xA0";
+
+         var currentIcon= document.createElement("img");
+         currentIcon.setAttribute("class", "weatherIcon");
+         currentIcon.setAttribute("src", "https://openweathermap.org/img/wn/"+data.weather[0].icon+".png");
+         currentIcon.setAttribute("alt", data.weather[0].main);
+         currentDate.append(currentIcon);
+
+
+         var temperature= document.createElement("p");
+         temperature.setAttribute("class","temp");
+         temperature.textContent="Temp:\xA0"+data.main.temp+"\xB0C";
+
+         var wind= document.createElement("p");
+         wind.setAttribute("class","wind");
+         wind.textContent="Wind:\xA0"+data.wind.speed+"KM/H";
+
+         var humidity= document.createElement("p");
+         humidity.setAttribute("class", "humidity");
+         humidity.textContent="Humidity:\xA0"+data.main.humidity+"%";
+
+         cityDashboard.append(cityName, temperature, wind, humidity);
+
+         var uvQueryURL= "https://api.openweathermap.org/data/2.5/uvi?" + "lat=" + data.coord.lat + "&lon="
+         + data.coord.lon + "&appid=" + apiKey;
+         
+         fetch(uvQueryURL)
+          .then(function(response){
+           return response.json();
+           })
+          .then(function(data){
+            console.log(data);
+            var uv= document.createElement("p");
+            uv.setAttribute("class", "uv");
+            uv.textContent="UV Index:\xA0";
+
+            var uvColor = document.createElement("span");
+            const uvIndex=data.value;
+            cityDashboard.append(uv)
+            uv.append(uvColor);
+            uvColor.textContent=uvIndex;
+            
+            if (uvIndex<3) {
+                uvColor.setAttribute("class", "uv-color green");
+            }
+
+            if (uvIndex >=3 && uvIndex <6) {
+                uvColor.setAttribute("class", "uv-color orange");
+            }
+
+            if (uvIndex >=6) {
+                uvColor.setAttribute("class", "uv-color red");
+            }
+
+          })
+         
+    })
+
+}
+
 
 function getWeather(city) {
     var query= queryURL+city+units+"&appid="+apiKey;
@@ -78,10 +157,18 @@ function getWeather(city) {
          var cityName= document.createElement("h2");
          cityName.setAttribute("class", "city");
          cityName.textContent=data.name+"\xA0";
+
          var currentDate= document.createElement("span");
+         currentDate.setAttribute("class", "date");
          cityName.appendChild(currentDate);
-         console.log(data.dt);
-         currentDate.textContent=moment(data.dt*1000).format("DD/MM/YYYY");
+         currentDate.textContent=moment(data.dt*1000).format("DD/MM/YYYY")+"\xA0";
+
+         var currentIcon= document.createElement("img");
+         currentIcon.setAttribute("class", "weatherIcon");
+         currentIcon.setAttribute("src", "https://openweathermap.org/img/wn/"+data.weather[0].icon+".png");
+         currentIcon.setAttribute("alt", data.weather[0].main);
+         currentDate.append(currentIcon);
+
 
          var temperature= document.createElement("p");
          temperature.setAttribute("class","temp");
@@ -93,7 +180,7 @@ function getWeather(city) {
 
          var humidity= document.createElement("p");
          humidity.setAttribute("class", "humidity");
-         humidity.textContent="Humidity:\xA0"+data.main.humidity;
+         humidity.textContent="Humidity:\xA0"+data.main.humidity+"%";
 
          cityDashboard.append(cityName, temperature, wind, humidity);
 
@@ -164,7 +251,8 @@ function searchHistory() {
         console.log(cities);
 }
 
-    searchHistory();
+searchHistory();
+defaultWeather();
 
 // EVENT LISTENER
 searchForm.addEventListener('submit', searchHandler);
