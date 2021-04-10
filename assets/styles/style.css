@@ -109,6 +109,18 @@ button{
     
 }
 
+.green{
+    background-color: green;
+}
+
+.orange{
+    background-color: orange;
+}
+
+.red{
+    background-color: red;
+}
+
 #forecast-heading{
     margin-top: 15px;
     display: inline-block;
