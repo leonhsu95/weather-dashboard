@@ -38,8 +38,11 @@ main{
 }
 
 #search-heading{
-    font-size: 1.3em;
+    display: inline-block;
     margin-bottom: 10px;
+    font-size: 1.3em;
+    font-weight: bold;
+    
 }
 
 #search-bar{
