@@ -8,7 +8,7 @@ const units = "&units=metric";
 // INITIAL ELEMENTS
 var cities = JSON.parse(localStorage.getItem("cities")) || [];
 
-const mainContent = document.querySelector("main");
+// const mainContent = document.querySelector("main");
 const searchForm = document.querySelector("#search");
 const searchBar = document.querySelector("#search-bar");
 searchBar.setAttribute("placeholder", "Sydney, AU");
@@ -34,22 +34,11 @@ function searchHandler(event){
         searchBar.value="";       
     }
 
-    console.log(cities);
+    // console.log(cities);
     saveSearch();
     searchHistory();
    
 }
-
-// function buttonHandler(event){
-//     event.preventDefault();
-//     var city = this.value;
-    
-//     if (city) {
-//         getWeather(city);
-//         // getweeklyForecast(city);      
-//     }
-   
-// }
 
 // DEFAULT WEATHER ON STARTUP IN SYDNEY, AU
 
@@ -109,7 +98,7 @@ function defaultWeather() {
 
             var uvColor = document.createElement("span");
             const uvIndex=data.value;
-            cityDashboard.append(uv)
+            cityDashboard.append(uv);
             uv.append(uvColor);
             uvColor.textContent=uvIndex;
             
@@ -125,9 +114,9 @@ function defaultWeather() {
                 uvColor.setAttribute("class", "uv-color red");
             }
 
-          })
+          });
          
-    })
+    });
 
 }
 
@@ -188,7 +177,7 @@ function getWeather(city) {
 
             var uvColor = document.createElement("span");
             const uvIndex=data.value;
-            cityDashboard.append(uv)
+            cityDashboard.append(uv);
             uv.append(uvColor);
             uvColor.textContent=uvIndex;
             
@@ -204,9 +193,9 @@ function getWeather(city) {
                 uvColor.setAttribute("class", "uv-color red");
             }
 
-          })
+          });
          
-    })
+    });
 
 }
 
@@ -225,7 +214,7 @@ function defaultForecast() {
 
           for (let i = 0; i < 5; i++) {
 
-            dayIndex= i*8;
+            var dayIndex= i*8;
 
             var day = document.createElement("article");
             
@@ -259,7 +248,7 @@ function defaultForecast() {
             day.append(forecastDate, forecastIcon, forecastTemp, forecastWind, forecastHumidity);           
           }
           
-      })
+      });
 }
 
 // GET CITY WEEKLY FORECAST
@@ -279,7 +268,7 @@ function getForecast(city) {
 
           for (let i = 0; i < 5; i++) {
 
-            dayIndex= i*8;
+            var dayIndex= i*8;
 
             var day = document.createElement("article");
             
@@ -313,7 +302,7 @@ function getForecast(city) {
             day.append(forecastDate, forecastIcon, forecastTemp, forecastWind, forecastHumidity);           
           }
           
-      })
+      });
 }
 
 // SAVE SEARCH HISTORY
