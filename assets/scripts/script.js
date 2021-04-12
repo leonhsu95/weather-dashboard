@@ -1,10 +1,9 @@
 // OPENWEATHER API
 const apiKey = "4de26a78b67a4d05fdaf94a17d38a2e8";
-const queryURL = "https://api.openweathermap.org/data/2.5/weather?q=";
-// var cityName="Sydney, AU";
+const weatherQueryURL = "https://api.openweathermap.org/data/2.5/weather?q=";
+const uvQueryURL = "https://api.openweathermap.org/data/2.5/uvi?";
+const forecastQueryURL = "https://api.openweathermap.org/data/2.5/forecast?q=";
 const units = "&units=metric";
-
-
 
 // INITIAL ELEMENTS
 var cities = JSON.parse(localStorage.getItem("cities")) || [];
@@ -14,20 +13,10 @@ const searchForm = document.querySelector("#search");
 const searchBar = document.querySelector("#search-bar");
 searchBar.setAttribute("placeholder", "Sydney, AU");
 const resultsList = document.querySelector("#results-list");
-const cityDashboard = document.querySelector("#city-forecast")
+const cityDashboard = document.querySelector("#city-forecast");
+const weeklyForecast = document.querySelector("#weekly-forecast");
 
 var city = searchBar.value.trim();
-
-// CREATING DYNAMIC ELEMENTS
-
-var weeklyForecastSection = document.createElement("section");
-weeklyForecastSection.setAttribute("id","weekly-forecast");
-mainContent.appendChild(weeklyForecastSection);
-
-var forecastDaysEl = document.createElement("article");
-forecastDaysEl.setAttribute("class", "forecast");
-//weeklyForecastSection.appendChild(forecastDaysEl);
-
 
 // SEARCH HANDLER
 function searchHandler(event){
@@ -36,7 +25,7 @@ function searchHandler(event){
     
     if (city) {
         getWeather(city);
-        // getweeklyForecast(city);
+        getForecast(city);
         cities.unshift(city);
         if (cities.length > 10) {
             cities.pop();
@@ -62,15 +51,17 @@ function searchHandler(event){
    
 // }
 
-function defaultWeather() {
-    var query= queryURL+"Sydney, AU"+units+"&appid="+apiKey;
+// DEFAULT WEATHER ON STARTUP IN SYDNEY, AU
 
-  fetch(query)
+function defaultWeather() {
+    var defaultQuery= weatherQueryURL+"Sydney, AU"+units+"&appid="+apiKey;
+
+  fetch(defaultQuery)
     .then(function(response){
         return response.json();
     })
     .then(function(data){
-        console.log(data);
+
          cityDashboard.innerHTML="";
 
          // Creating Current City Forecast
@@ -104,15 +95,14 @@ function defaultWeather() {
 
          cityDashboard.append(cityName, temperature, wind, humidity);
 
-         var uvQueryURL= "https://api.openweathermap.org/data/2.5/uvi?" + "lat=" + data.coord.lat + "&lon="
+         var uvQuery= uvQueryURL + "lat=" + data.coord.lat + "&lon="
          + data.coord.lon + "&appid=" + apiKey;
          
-         fetch(uvQueryURL)
+         fetch(uvQuery)
           .then(function(response){
            return response.json();
            })
           .then(function(data){
-            console.log(data);
             var uv= document.createElement("p");
             uv.setAttribute("class", "uv");
             uv.textContent="UV Index:\xA0";
@@ -141,11 +131,11 @@ function defaultWeather() {
 
 }
 
-
+// GET WEATHER ON SEARCHED CITY
 function getWeather(city) {
-    var query= queryURL+city+units+"&appid="+apiKey;
+    var currentQuery= weatherQueryURL+city+units+"&appid="+apiKey;
 
-  fetch(query)
+  fetch(currentQuery)
     .then(function(response){
         return response.json();
     })
@@ -184,15 +174,14 @@ function getWeather(city) {
 
          cityDashboard.append(cityName, temperature, wind, humidity);
 
-         var uvQueryURL= "https://api.openweathermap.org/data/2.5/uvi?" + "lat=" + data.coord.lat + "&lon="
+         var uvQuery= uvQueryURL + "lat=" + data.coord.lat + "&lon="
          + data.coord.lon + "&appid=" + apiKey;
          
-         fetch(uvQueryURL)
+         fetch(uvQuery)
           .then(function(response){
            return response.json();
            })
           .then(function(data){
-            console.log(data);
             var uv= document.createElement("p");
             uv.setAttribute("class", "uv");
             uv.textContent="UV Index:\xA0";
@@ -219,14 +208,118 @@ function getWeather(city) {
          
     })
 
+}
+
+// GET DEFAULT WEEKLY FORECAST
+function defaultForecast() {
+
+    var forecastQuery= forecastQueryURL+"Sydney, AU"+units+"&appid="+apiKey;
+
+    fetch(forecastQuery)
+     .then(function(response){
+        return response.json()
+        ;
+     })
+      .then(function(data){
+          console.log(data);
+
+          for (let i = 0; i < 5; i++) {
+
+            dayIndex= i*8;
+
+            var day = document.createElement("article");
+            
+            var forecastDate = document.createElement("p");
+            forecastDate.setAttribute("class", "date");
+            var forecastDateEpoch=data.list[dayIndex].dt;
+            forecastDate.textContent=moment(forecastDateEpoch*1000).format("DD/MM/YYYY")+"\xA0";
+
+
+            var forecastIcon = document.createElement("img");
+            forecastIcon.setAttribute("class", "icon");
+            forecastIcon.setAttribute("src", "https://openweathermap.org/img/wn/"+data.list[dayIndex].weather[0].icon+".png");
+            forecastIcon.setAttribute("alt", data.list[dayIndex].weather[0].main);
+
+
+            var forecastTemp = document.createElement("p");
+            forecastTemp.setAttribute("class", "temp");
+            forecastTemp.textContent="Temp:\xA0"+data.list[dayIndex].main.temp+"\xB0C";
+
+            var forecastWind = document.createElement("p");
+            forecastWind.setAttribute("class", "wind");
+            forecastWind.textContent="Wind:\xA0"+data.list[dayIndex].wind.speed+"KM/H";
+
+
+            var forecastHumidity = document.createElement("p");
+            forecastHumidity.setAttribute("class", "humidity");
+            forecastHumidity.textContent="Humidity:\xA0"+data.list[dayIndex].main.humidity+"%";
+
+            
+            weeklyForecast.appendChild(day);   
+            day.append(forecastDate, forecastIcon, forecastTemp, forecastWind, forecastHumidity);           
+          }
+          
+      })
+}
+
+// GET CITY WEEKLY FORECAST
+function getForecast(city) {
+
+    var forecastQuery= forecastQueryURL+city+units+"&appid="+apiKey;
+
+    fetch(forecastQuery)
+     .then(function(response){
+        return response.json()
+        ;
+     })
+      .then(function(data){
+          console.log(data);
+
+          weeklyForecast.innerHTML="";
+
+          for (let i = 0; i < 5; i++) {
+
+            dayIndex= i*8;
+
+            var day = document.createElement("article");
+            
+            var forecastDate = document.createElement("p");
+            forecastDate.setAttribute("class", "date");
+            var forecastDateEpoch=data.list[dayIndex].dt;
+            forecastDate.textContent=moment(forecastDateEpoch*1000).format("DD/MM/YYYY")+"\xA0";
+
+
+            var forecastIcon = document.createElement("img");
+            forecastIcon.setAttribute("class", "icon");
+            forecastIcon.setAttribute("src", "https://openweathermap.org/img/wn/"+data.list[dayIndex].weather[0].icon+".png");
+            forecastIcon.setAttribute("alt", data.list[dayIndex].weather[0].main);
+
+
+            var forecastTemp = document.createElement("p");
+            forecastTemp.setAttribute("class", "temp");
+            forecastTemp.textContent="Temp:\xA0"+data.list[dayIndex].main.temp+"\xB0C";
+
+            var forecastWind = document.createElement("p");
+            forecastWind.setAttribute("class", "wind");
+            forecastWind.textContent="Wind:\xA0"+data.list[dayIndex].wind.speed+"KM/H";
+
+
+            var forecastHumidity = document.createElement("p");
+            forecastHumidity.setAttribute("class", "humidity");
+            forecastHumidity.textContent="Humidity:\xA0"+data.list[dayIndex].main.humidity+"%";
+
+            
+            weeklyForecast.appendChild(day);   
+            day.append(forecastDate, forecastIcon, forecastTemp, forecastWind, forecastHumidity);           
+          }
+          
+      })
 }
 
 // SAVE SEARCH HISTORY
-
 function saveSearch(){
     localStorage.setItem("cities",JSON.stringify(cities));
 }
-
 
 // SEARCH HISTORY
 function searchHistory() {
@@ -234,7 +327,7 @@ function searchHistory() {
         resultsList.innerHTML="";
 
         for (let i = 0; i < cities.length; i++) {         
-        
+            
         var searchResultsEl = document.createElement("li");
         searchResultsEl.setAttribute("class", "results-city");
         resultsList.appendChild(searchResultsEl);
@@ -244,15 +337,14 @@ function searchHistory() {
         cityButtons.setAttribute("class", "results-city");
         cityButtons.setAttribute("type", "submit");
         cityButtons.setAttribute("value", cities[i])
-        
         cityButtons.textContent= cities[i];
-
         }
-        console.log(cities);
+      
 }
 
 searchHistory();
 defaultWeather();
+defaultForecast();
 
 // EVENT LISTENER
 searchForm.addEventListener('submit', searchHandler);

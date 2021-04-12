@@ -141,11 +141,17 @@ button{
     margin: 10px 0;
 }
 
-.forecast{
+article{
     background-color: var(--weather-blue);
     margin: 5px;
     color: white;
     padding: 20px;
+    border-radius: 10px;
+}
+
+article .icon{
+    display: block;
+    margin: 20px auto;
 }
 
 .date{
