@@ -71,7 +71,11 @@ SOFTWARE.
 
 - The user can type any city name and the application will fetch the weather forecast of that city for the next 5 days.
 - User saved cities are stored in local storage.
-- More details to follow...
+- User can click on any button to search for previous cities and its data.
+
+## Future Improvements
+- The site can be made responsive for better mobile UI.
+- Alert signs can be added when user inputs invalid city.
 
 ## Tests
 

@@ -140,7 +140,7 @@ function getWeather(city) {
         return response.json();
     })
     .then(function(data){
-        console.log(data);
+        // console.log(data);
          cityDashboard.innerHTML="";
 
          // Creating Current City Forecast
@@ -221,7 +221,7 @@ function defaultForecast() {
         ;
      })
       .then(function(data){
-          console.log(data);
+        //   console.log(data);
 
           for (let i = 0; i < 5; i++) {
 
@@ -273,8 +273,8 @@ function getForecast(city) {
         ;
      })
       .then(function(data){
-          console.log(data);
 
+        //   console.log(data);
           weeklyForecast.innerHTML="";
 
           for (let i = 0; i < 5; i++) {
@@ -336,7 +336,7 @@ function searchHistory() {
         searchResultsEl.appendChild(cityButtons);
         cityButtons.setAttribute("class", "results-city");
         cityButtons.setAttribute("type", "submit");
-        cityButtons.setAttribute("value", cities[i])
+        cityButtons.setAttribute("data-value", cities[i]);
         cityButtons.textContent= cities[i];
         }
       
@@ -348,11 +348,12 @@ defaultForecast();
 
 // EVENT LISTENER
 searchForm.addEventListener('submit', searchHandler);
-// document.querySelector(".results-city").addEventListener('click', function(event){
-//     event.preventDefault();
-//     var city = this.value();
-//     getWeather(city);
-// });
+document.querySelector("#results-list").addEventListener('click', function(event){
+    event.preventDefault();
+    city= event.target.getAttribute('data-value');
+    getWeather(city);
+    getForecast(city);
+});
 
 
 
