@@ -4,9 +4,9 @@ Please view the Weather Dashboard Project Here: [Weather Dashboard](https://leon
 
 ## Table of Contents
 
-- [Installation](#installation)
 - [Description](#description)
 - [Technology](#technology)
+- [Installation](#installation)
 - [Usage](#usage)
 - [Credits](#credits)
 - [License](#license)
