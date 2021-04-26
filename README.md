@@ -2,6 +2,15 @@
 
 Please view the Weather Dashboard Project Here: [Weather Dashboard](https://leonhsu95.github.io/weather-dashboard/)
 
+## Table of Contents
+
+- [Installation](#installation)
+- [Description](#description)
+- [Technology](#technology)
+- [Usage](#usage)
+- [Credits](#credits)
+- [License](#license)
+
 ## Description
 
 The weather dashboard applications will allow users to search from cities by name and its projected weather forecast for the next 5 days.
@@ -13,12 +22,15 @@ In addition to this, the user can see the selected city's:
  * Humidity
  * UV Index
 
-## Table of Contents
+## Technology
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [Credits](#credits)
-- [License](#license)
+Technologies used include:
+
+* HTML
+* CSS
+* JS
+  * moment.js CDN
+  * openweather API
 
 ## Installation
 
